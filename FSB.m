@@ -65,9 +65,9 @@ while(test < 0)
         n23 = e*(En(i)+h2*n12) - (g+a+d)*(In(i)+h2*n13);
         n24 = (b-d)*(Nn(i)+h2*n14) - a*(In(i)+h2*n13);
         
-        n31 = b*(Nn(i)+h2*n24) - d*(Sn(i)+h2*n21) - c*(Sn(i)+h2*n21)*(I(i)+h2*n23);
-        n32 = c*(Sn(i)+h2*n21)*(I(i)+h2*n23) - (e+d)*(E(i)+h2*n22);
-        n33 = e*(E(i)+h2*n22) - (g+a+d)*(In(i)+h2*n23);
+        n31 = b*(Nn(i)+h2*n24) - d*(Sn(i)+h2*n21) - c*(Sn(i)+h2*n21)*(In(i)+h2*n23);
+        n32 = c*(Sn(i)+h2*n21)*(In(i)+h2*n23) - (e+d)*(En(i)+h2*n22);
+        n33 = e*(En(i)+h2*n22) - (g+a+d)*(In(i)+h2*n23);
         n34 = (b-d)*(Nn(i)+h2*n24) - a*(In(i)+h2*n23);
         
         n41 = b*(Nn(i)+h*n34) - d*(Sn(i)+h*n31) - c*(Sn(i)+h*n31)*(In(i)+h*n33);
@@ -139,13 +139,13 @@ while(test < 0)
         lambda3(j-1) = lambda3(j) - (h/6)*(m13 + 2*m23 + 2*m33 + m43);
         lambda4(j-1) = lambda4(j) - (h/6)*(m14 + 2*m24 + 2*m34 + m44);
     end
-        %Representacion de las variables de control u usando los nuevos valores para lambda
+        %Representacion de las variables de control u(t) usando los nuevos valores para lambda
         temp=(S.*lambda1)./2;
         u1 = min(0.9,max(0,temp));
         u = 0.5*(u1 + oldu);
        
        
-    %Parametros para probar la convergencia de cada variable. 
+    %Parametros para estimar la convergencia de cada variable. 
     temp1 = delta*sum(abs(u)) - sum(abs(oldu - u));
     temp2 = delta*sum(abs(S)) - sum(abs(oldS - S));
     temp3 = delta*sum(abs(E)) - sum(abs(oldE - E));
@@ -158,7 +158,7 @@ while(test < 0)
     test = min(temp1, min(temp2, min(temp3, min(temp4, min(temp5, min(temp6, min(temp7, min(temp8, temp9))))))));
 end
 
-%Con los valores obtenidos de la variable u se implementa el metodo de Runge Kutta para resolver la ecuacion de los recuperados
+%Con los valores obtenidos de la variable u(t) se implementa el metodo de Runge Kutta para resolver la ecuacion de los recuperados
 for i=1:M
     n1 = g*In(i) - d*Rn(i); 
     n2 = g*0.5*(In(i)+In(i+1)) - d*(Rn(i)+h2*n1);
